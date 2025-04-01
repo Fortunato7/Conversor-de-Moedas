@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link href="Css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Moedas</title>
+</head>
+<body>
+    
+        <h1>Converter Moedas</h1>
+
+        <div class="butoes">
+        <input type="number"  id="valor" placeholder="Digite o valor">
+       
+        
+        <select id="moedaOrigem">
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+            <option value="BRL">Real (BRL)</option>
+        </select><!--Original-->
+        <select id="moedaDestino">
+                <option value="BRL">Real (BRL)</option>
+                <option value="USD">Dólar (USD)</option>
+                <option value="EUR">Euro (EUR)</option>
+
+            
+        </select><!--Destino-->
+
+        <button onclick="Converter()">Converter</button>
+        </div><!--Butoes-->
+        <h2 id="resultado">Resultado</h2>
+
+        <script>
+
+async function Converter() {
+            const valor = document.getElementById("valor").value;
+            const moedaOrigem = document.getElementById("moedaOrigem").value;
+            const moedaDestino = document.getElementById("moedaDestino").value;
+
+            if (!valor) {
+                alert("Digite um valor para a conversão");
+                return;
+            }
+
+            const url = `https://v6.exchangerate-api.com/v6/a0eabe92df4d373c5830d59a/latest/${moedaOrigem}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const taxa = data.conversion_rates[moedaDestino]; // Corrigido para "conversion_rates"
+
+            const resultado = (valor * taxa).toFixed(2);
+            document.getElementById("resultado").innerText = `Resultado: ${resultado} ${moedaDestino}`;
+        }
+   
+
+        </script>
+   
+</body>
+</html>
